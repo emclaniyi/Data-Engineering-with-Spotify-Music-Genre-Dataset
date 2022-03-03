@@ -34,7 +34,26 @@ def transform_new_data():
 
             genre_raw_objects.append(
                 GenreRawAll(
+                    danceability = row['danceability'],
+                    energy = row['energy'],
+                    key=row['key'],
+                    loudness=row['loudness'],
+                    mode=row['mode'],
+                    acousticness=row['acousticness'],
+                    instrumentalness=row['instrumentalness'],
+                    liveness=row['liveness'],
+                    valence=row['valence'],
+                    tempo=row['tempo'],
+                    type=row['type'],
+                    id=row['id'],
+                    uri=row['uri'],
+                    track_href=row['track_href'],
+                    analysis_url=row['analysis_url'],
+                    duration_ms=row['duration_ms'],
+                    time_signature=row['time_signature'],
                     genre=transform_case(row['genre']),
+
+
                 )
             )
             session.bulk_save_objects(genre_raw_objects)
@@ -44,7 +63,8 @@ def transform_new_data():
 def main():
     print("[Transform] start")
     print("[Transform] remove any old data from genre_raw_all table")
-    truncate_table('genre_raw_all')
+    #truncate_table('genre_raw_all')
     print("[Transform] transform new data available run transformation")
-    #transform_new_data()
+    transform_new_data()
     print("[Transform] end")
+

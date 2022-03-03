@@ -6,7 +6,7 @@ from common.tables import GenreRawAll, GenreCleanAll
 
 def insert_tracks():
     # select track id
-    clean_track_id = session.query(GenreCleanAll.track_id)
+    clean_track_id = session.query(GenreCleanAll.id)
 
     # select columns and cast appropriate type when needed
     tracks_to_insert = session.query(
@@ -28,15 +28,14 @@ def insert_tracks():
         cast(GenreRawAll.duration_ms, Integer),
         cast(GenreRawAll.time_signature, Integer),
         GenreRawAll.genre,
-        GenreRawAll.track_id
-    ).filter(~GenreRawAll.track_id.in_(clean_track_id))
+    ).filter(~GenreRawAll.id.in_(clean_track_id))
 
     # print number of transactions to insert
     print("Transactions to insert: ", tracks_to_insert.count())
 
     columns = [
         'dancebility', 'energy', 'key', 'loudness', 'mode', 'acousticness', 'instrumentalness', 'liveness', 'valence',
-        'tempo', 'type', 'id', 'uri', 'track_href', 'analysis_url', 'duration_ms', 'time_signature', 'genre', 'track_id'
+        'tempo', 'type', 'id', 'uri', 'track_href', 'analysis_url', 'duration_ms', 'time_signature', 'genre'
     ]
 
     stmt = insert(GenreCleanAll).from_select(columns, tracks_to_insert)
@@ -49,9 +48,9 @@ def delete_tracks():
     """
         Delete operation: delete any row not present in the last snapshot
     """
-    raw_track_id = session.query(GenreRawAll.track_id)
+    raw_track_id = session.query(GenreRawAll.id)
 
-    tracks_to_delete = session.query(GenreCleanAll).filter(~GenreCleanAll.track_id.in_(raw_track_id))
+    tracks_to_delete = session.query(GenreCleanAll).filter(~GenreCleanAll.id.in_(raw_track_id))
 
     # print number of transactions to delete
     print("Transactions to delete: ", tracks_to_delete.count())

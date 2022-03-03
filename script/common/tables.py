@@ -1,11 +1,11 @@
-from sqlalchemy import Column, Float, Integer, String
+from sqlalchemy import Column, Float, Integer, String, Identity
 import common.base as b
 from sqlalchemy.orm import column_property
 
 
 class GenreRawAll(b.Base):
     __tablename__ = "genre_raw_all"
-    dancebility = Column(String(55))
+    danceability = Column(String(55))
     energy = Column(String(55))
     key = Column(String(55))
     loudness = Column(String(55))
@@ -16,21 +16,20 @@ class GenreRawAll(b.Base):
     valence = Column(String(55))
     tempo = Column(String(55))
     type = Column(String(55))
-    id = Column(String(500), primary_key=True, nullable=True)
+    id = Column(String(500))
     uri = Column(String(500))
     track_href = Column(String(500))
     analysis_url = Column(String(500))
     duration_ms = Column(String(50))
     time_signature = Column(String(255))
     genre = Column(String(255))
-    track_id = column_property(
-        uri + "_" + track_href + "_" + analysis_url
-    )
+    track_id = Column(Integer, Identity(start=42, cycle=True), primary_key=True)
+
 
 
 class GenreCleanAll(b.Base):
     __tablename__ = "genre_clean_all"
-    dancebility = Column(Float)
+    danceability = Column(Float)
     energy = Column(Float)
     key = Column(Integer)
     loudness = Column(Float)
@@ -41,13 +40,12 @@ class GenreCleanAll(b.Base):
     valence = Column(Float)
     tempo = Column(Float)
     type = Column(String(255))
-    id = Column(String(500), primary_key=True, nullable=True)
+    id = Column(String(500))
     uri = Column(String(500))
     track_href = Column(String(500))
     analysis_url = Column(String(500))
     duration_ms = Column(Integer)
     time_signature = Column(Integer)
     genre = Column(String(255))
-    track_id = column_property(
-        uri + "_" + track_href + "_" + analysis_url
-    )
+    track_id = Column(Integer, Identity(start=42, cycle=True), primary_key=True)
+
