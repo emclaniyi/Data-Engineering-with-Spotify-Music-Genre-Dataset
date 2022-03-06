@@ -1,6 +1,5 @@
 from sqlalchemy import Column, Float, Integer, String, Identity
 import common.base as b
-from sqlalchemy.orm import column_property
 
 
 class GenreRawAll(b.Base):
